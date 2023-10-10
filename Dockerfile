@@ -1,16 +1,17 @@
-##### build stage ##############################################################
-
 ARG TARGET_ARCHITECTURE
 ARG BASE=7.0.7ec2
 ARG REGISTRY=ghcr.io/epics-containers
 
+##### build stage ##############################################################
+
 FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS developer
 
-# get latest ibek while under dev. In future the epics-base version will be used
+# Get latest ibek while in development. Will come from epics-base in future.
 RUN pip install --upgrade ibek
 
-# the devcontainer mounts the project root to /epics/ioc-template
-WORKDIR /epics/ioc-template/ibek-support
+# The devcontainer mounts the project root to /epics/ioc-adsimdetector. Using
+# the same location here makes devcontainer/runtime differences transparent.
+WORKDIR /epics/ioc-adsimdetector/ibek-support
 
 # copy the global ibek files
 COPY ibek-support/_global/ _global
@@ -18,11 +19,22 @@ COPY ibek-support/_global/ _global
 COPY ibek-support/iocStats/ iocStats
 RUN iocStats/install.sh 3.1.16
 
-################################################################################
-#  TODO - Add futher support module installations here
-################################################################################
+COPY ibek-support/asyn/ asyn/
+RUN asyn/install.sh R4-42
 
-# create IOC source tree / generate Makefile / compile
+COPY ibek-support/autosave/ autosave/
+RUN autosave/install.sh R5-10-2
+
+COPY ibek-support/busy/ busy/
+RUN busy/install.sh R1-7-3
+
+COPY ibek-support/ADCore/ ADCore/
+RUN ADCore/install.sh R3-12-1
+
+COPY ibek-support/ADSimDetector/ ADSimDetector/
+RUN ADSimDetector/install.sh R2-10
+
+# Generate template IOC source tree / generate Makefile / compile
 RUN ibek ioc compile
 
 ##### runtime preparation stage ################################################
