@@ -35,7 +35,7 @@ COPY ibek-support/ADSimDetector/ ADSimDetector/
 RUN ADSimDetector/install.sh R2-10
 
 # Generate template IOC source tree / generate Makefile / compile
-RUN ibek ioc compile
+RUN ibek ioc build
 
 ##### runtime preparation stage ################################################
 
