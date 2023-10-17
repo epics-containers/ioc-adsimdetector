@@ -10,7 +10,6 @@ for i in \
         if [ ! -f $HOME/$i ] ; then
             touch $HOME/$i;
         fi
-        echo verified existance of $i
 done
 
 echo "devcontainerID ${1}"
