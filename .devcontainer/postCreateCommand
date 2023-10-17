@@ -1,31 +1,5 @@
 #!/bin/bash
 
-# if we are using docker then we need to create a user that will write files
-# with the correct user id. podmand runs as root inside but is really using
-# the users' context and all file permissions just work.
-# if [[ ${container} != "podman" ]] ; then
-
-# TODO - testing replacing this with common utils feature
-# which is much neater for docker but maybe not for podman
-#
-#     # create user dev with full sudo rights and make them owner of /epics
-#     apt install sudo
-#     echo 'dev  ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
-#     adduser dev -uid 1000  --disabled-password --gecos "temp devloper user with UID of host process"
-#     usermod -aG sudo dev
-#     echo "setting uid on writable container filesystem files ..."
-#     chown dev:dev -R /epics/links
-#     chown dev:dev /epics /epics/ioc
-
-#     # give the user the same shell config that root would get
-#     chmod a+rx /root
-#     for f in .bash_eternal_history .bashrc .bashrc_dev_container .gitconfig .inputrc .ssh;
-#       do echo "handing $f to dev user"
-#       chmod a+rw /root/$f
-#       ln -fs /root/$f /home/dev/$f
-#     done
-# fi
-
 ################################################################################
 # When using docker we will not be root inside the container
 # the following steps are then required
@@ -43,6 +17,12 @@ if [[ $USER != "root" ]] ; then
         ln -sf /root/$f $HOME/$f
     done
 fi
+
+################################################################################
+# Custom install script for each developer to add whatever they like to
+# all epics-containers devcontainers
+################################################################################
+
 
 # add user's custom profile container creation script
 if [ -f ~/.bashprofile_dev_container ]; then

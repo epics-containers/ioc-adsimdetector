@@ -69,11 +69,6 @@
         // provides a place to install any packages you want to have across all your dev containers
         "source=${localEnv:HOME}/.bashprofile_dev_container,target=/root/.bashprofile_dev_container,type=bind",
         // provides the same command line editing experience as your host
-        "source=${localEnv:HOME}/.inputrc,target=/root/.inputrc,type=bind",
-        // provides the same ssh keys as your host
-        "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind"
-        // ensure your git name and email are set correctly
-        // removed: handled by vscode features
-        //"source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind",
+        "source=${localEnv:HOME}/.inputrc,target=/root/.inputrc,type=bind"
     ]
 }
