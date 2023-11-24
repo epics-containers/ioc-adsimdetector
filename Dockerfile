@@ -1,14 +1,10 @@
 ##### build stage ##############################################################
 
 ARG TARGET_ARCHITECTURE
-ARG BASE=7.0.7ec2
+ARG BASE=7.0.7ec3
 ARG REGISTRY=ghcr.io/epics-containers
 
 FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS developer
-
-# Get latest ibek while in development. Will come from epics-base when stable
-COPY requirements.txt requirements.txt
-RUN pip install --upgrade -r requirements.txt
 
 # The devcontainer mounts the project root to /epics/ioc-adsimdetector. Using
 # the same location here makes devcontainer/runtime differences transparent.
