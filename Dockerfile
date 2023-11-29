@@ -1,7 +1,7 @@
 ##### build stage ##############################################################
 
 ARG TARGET_ARCHITECTURE
-ARG BASE=7.0.7ec2
+ARG BASE=7.0.7ec3
 ARG REGISTRY=ghcr.io/epics-containers
 
 FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS developer
@@ -28,6 +28,12 @@ RUN autosave/install.sh R5-11
 
 COPY ibek-support/busy/ busy/
 RUN busy/install.sh R1-7-3
+
+COPY ibek-support/sscan/ sscan/
+RUN sscan/install.sh R2-11-6
+
+COPY ibek-support/calc/ calc/
+RUN calc/install.sh R3-7-5
 
 COPY ibek-support/ADCore/ ADCore/
 RUN ADCore/install.sh R3-12-1
