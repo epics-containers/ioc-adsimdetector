@@ -6,12 +6,9 @@ ARG REGISTRY=ghcr.io/epics-containers
 
 FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS developer
 
-ARG PROJECT_NAME
-RUN test -n "${PROJECT_NAME}" || (echo "PROJECT_NAME must be set" && false)
-
-# The devcontainer mounts the project root to /workspaces/${PROJECT_NAME}
+# The devcontainer mounts the project root to /epics/generic-source
 # Using the same location here makes devcontainer/runtime differences transparent.
-ENV SOURCE_FOLDER=/workspaces/${PROJECT_NAME}
+ENV SOURCE_FOLDER=/epics/generic-source
 # connect ioc source folder its know location
 RUN ln -s ${SOURCE_FOLDER}/ioc ${IOC}
 
