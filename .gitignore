@@ -10,3 +10,6 @@ ibek
 
 # dont save workspaces as other users will have differing folders
 *workspace
+
+# config folder is there to be replaced there is just a dummy with Readme.
+config
