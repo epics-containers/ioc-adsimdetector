@@ -9,7 +9,7 @@ FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS develop
 # The devcontainer mounts the project root to /epics/generic-source
 # Using the same location here makes devcontainer/runtime differences transparent.
 ENV SOURCE_FOLDER=/epics/generic-source
-# connect ioc source folder its know location
+# connect ioc source folder to its know location
 RUN ln -s ${SOURCE_FOLDER}/ioc ${IOC}
 
 # Get latest ibek while in development. Will come from epics-base when stable
