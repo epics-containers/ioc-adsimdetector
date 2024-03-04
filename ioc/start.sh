@@ -131,7 +131,7 @@ elif [ -f ${ibek_src} ]; then
 
     # get the ibek support yaml files this ioc's support modules
     defs=/epics/ibek-defs/*.ibek.support.yaml
-    ibek runtime generate ${ibek_src} ${defs} --out ${final_ioc_startup} --db-out ${db_src}
+    ibek runtime generate ${ibek_src} ${defs}
 
     # build expanded database using msi
     if [ -f ${db_src} ]; then
@@ -139,7 +139,7 @@ elif [ -f ${ibek_src} ]; then
         bash -c "msi -o${epics_db} ${includes} -I${RUNTIME_DIR} -S${db_src}"
     fi
 
-# 2. st.cmd + ioc.subst ************************************************
+# 3. st.cmd + ioc.subst ************************************************
 elif [ -f ${ioc_startup} ] ; then
 
     if [ -f ${CONFIG_DIR}/ioc.subst ]; then
