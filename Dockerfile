@@ -45,7 +45,6 @@ RUN ADCore/install.sh R3-12-1
 COPY ibek-support/ADSimDetector/ ADSimDetector/
 RUN ADSimDetector/install.sh R2-10
 
-
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
 RUN cd ${IOC} && ./install.sh && make
