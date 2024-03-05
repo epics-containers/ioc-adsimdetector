@@ -1,7 +1,7 @@
 ##### build stage ##############################################################
 
 ARG TARGET_ARCHITECTURE
-ARG BASE=7.0.7ec3
+ARG BASE=7.0.8ec1b1
 ARG REGISTRY=ghcr.io/epics-containers
 
 FROM  ${REGISTRY}/epics-base-${TARGET_ARCHITECTURE}-developer:${BASE} AS developer
@@ -22,7 +22,7 @@ WORKDIR ${SOURCE_FOLDER}/ibek-support
 COPY ibek-support/_global/ _global
 
 COPY ibek-support/iocStats/ iocStats
-RUN iocStats/install.sh 3.1.16
+RUN iocStats/install.sh 3.2.0
 
 COPY ibek-support/asyn/ asyn/
 RUN asyn/install.sh R4-42
@@ -48,7 +48,7 @@ RUN ADSimDetector/install.sh R2-10
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
-RUN cd ${IOC} && make
+RUN cd ${IOC} && ./install.sh && make
 
 ##### runtime preparation stage ################################################
 
