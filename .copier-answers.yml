@@ -1,8 +1,9 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 3.2.1
-_src_path: gh:epics-containers/ioc-template
+_commit: 3.4.0b1-1-g8d6c176
+_src_path: ../ioc-template
 description: The simulation AreaDetector
 git_platform: github.com
 github_org: epics-containers
 name: ioc-adsimdetector
 repo_uri: git@github.com:epics-containers/ioc-adsimdetector.git
+rtems: false
