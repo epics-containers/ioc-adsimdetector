@@ -30,6 +30,5 @@ if [ ! -d ibek-support ] ; then git submodule update --init ; fi
 # build and developer images
 set -x
 $docker build $buildx -t ${TAG} "${@}" $load \
-    --build-arg EPICS_TARGET_ARCH=$T_A \
     --build-arg IMAGE_EXT=$IMAGE_EXT \
     $runtime --target $TARGET .
