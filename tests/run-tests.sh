@@ -14,7 +14,7 @@ CONF=/epics/ioc/config
 set -ex
 
 # use docker if available else use podman
-if ! docker version &>/dev/null; then docker=podman; else docker=podman; fi
+if docker version &>/dev/null; then docker=docker; else docker=podman; fi
 
 cd ${ROOT}
 
