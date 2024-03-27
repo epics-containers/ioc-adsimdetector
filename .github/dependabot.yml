@@ -1,8 +1,13 @@
-# Look for updates to python and docker dependencies.
+# We no longer look for updates to docker and python dependencies in ioc-xxx
+# projects.
+#
+# This is because they should be updated in a controlled manner using the
+# copier template so that all changes are kept in sync.
 
 version: 2
 updates:
-  - package-ecosystem: "docker"
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      # Check for updates to GitHub Actions every weekday
+      interval: "monthly"
