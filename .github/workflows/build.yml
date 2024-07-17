@@ -90,6 +90,18 @@ jobs:
           tags: ${{ env.TAG }}-runtime:${{ github.ref_name }}
           push: true
 
+      - name: Push demo image
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          target: demo
+          build-args: |
+            IMAGE_EXT=${{ matrix.extension }}
+          tags: ${{ env.TAG }}-demo:${{ github.ref_name }}
+          push: true
+
   release:
     # Release on tag push - publish ioc schema
     needs: [build]
