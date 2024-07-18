@@ -71,3 +71,10 @@ RUN ibek support apt-install-runtime-packages --skip-non-native
 
 CMD ["bash", "-c", "${IOC}/start.sh"]
 
+##### stage that fully configures the example IOC ##################
+
+FROM runtime as demo
+
+COPY services/bl01t-ea-ioc-02/config /epics/ioc/config
+
+ENV IOC_NAME=BL01T-EA-TST-02
