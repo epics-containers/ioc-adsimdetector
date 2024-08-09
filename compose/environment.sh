@@ -31,6 +31,12 @@ if check_docker; then
     USER_ID=$(id -u); USER_GID=$(id -g)
 else
     USER_ID=0; USER_GID=0
+    alias docker=podman
+fi
+
+# make sure we have a network to share beteen the devcontainer and gateway container
+if ! docker network exists channel_access ; then
+    docker network create --subnet="170.20.0.0/16" channel_access
 fi
 
 # ensure local container users can access X11 server

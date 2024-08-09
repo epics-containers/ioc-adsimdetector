@@ -9,11 +9,11 @@ services:
       DISPLAY: $DISPLAY
     tty: true
     # pick a server port for phoebus so it does not reconnect to existing phoebus
-    command: phoebus-product/phoebus.sh -settings /config/settings.ini -server 7010
+    command: phoebus-product/phoebus.sh -settings /config/settings.ini -resource /opi/ioc/index.bob -server 7010
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/root/.Xauthority
-      - ../../opi:/opi
+      - ../../../opi:/opi
     # for X11 to work we need to run as the same UID as the host
     # IMPORTANT: set UIDGID to your host user:group e.g. 1000:1000
     # BUT: always to 0:0 if you are using podman
@@ -30,7 +30,3 @@ services:
 configs:
   phoebus_config:
     file: ./config
-
-include:
-  - path:
-      ../../include/networks.yml
