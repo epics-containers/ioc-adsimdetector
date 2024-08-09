@@ -46,6 +46,8 @@
     // One time global setup commands inside the container
     "postCreateCommand": "bash .devcontainer/postCreateCommand ${devcontainerId}",
     "runArgs": [
+        // IMPORTANT: this network must exist before the container is created
+        // source compose/environment.sh to create it before first use
         "--network=channel_access",
         // Make sure SELinux does not disable write access to host filesystems like tmp
         "--security-opt=label=disable"
@@ -59,6 +61,6 @@
         // in this way the devcontainer and runtime look very similar
         "source=${localWorkspaceFolder},target=/epics/generic-source,type=bind",
         // Mount the opi folder so we can use phoebus from outside the container
-        "source=${localWorkspaceFolder}/opi,target=/epics/opi,type=bind"
+        "source=${localWorkspaceFolder}/opi/ioc,target=/epics/opi,type=bind"
     ]
 }
