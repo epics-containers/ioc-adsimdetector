@@ -46,6 +46,7 @@
     // One time global setup commands inside the container
     "postCreateCommand": "bash .devcontainer/postCreateCommand ${devcontainerId}",
     "runArgs": [
+        "--network=channel_access"
         // Make sure SELinux does not disable write access to host filesystems like tmp
         "--security-opt=label=disable"
     ],
