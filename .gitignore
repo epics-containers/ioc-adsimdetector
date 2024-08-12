@@ -14,8 +14,13 @@ ibek
 # config folder is a container mount at /epics/ioc/config
 ioc/config
 # the opi folder is also mounted into the container at /epics/ioc/opi
+<<<<<<< before updating
 opi/*
 !opi/.placeholder
+=======
+opi/ioc/*
+!opi/ioc/.placeholder
+>>>>>>> after updating
 
 # podman may leave this around in aborted builds
 .build.swp
