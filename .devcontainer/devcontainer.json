@@ -24,7 +24,7 @@
         }
     },
     // IMPORTANT for this devcontainer to work with docker EC_REMOTE_USER must be
-    // set to your user name. You will run full sudo rights.
+    // set to your user name. You will run with full sudo rights.
     // For podman it should be left blank. You will run as root but host mounts
     // will be owned by your user id.
     "remoteUser": "${localEnv:EC_REMOTE_USER}",
@@ -48,7 +48,7 @@
     "runArgs": [
         // IMPORTANT: this network must exist before the container is created
         // source compose/environment.sh to create it before first use
-        "--network=channel_access",
+        "--network=channel_access_devcontainer",
         // Make sure SELinux does not disable write access to host filesystems like tmp
         "--security-opt=label=disable"
     ],
