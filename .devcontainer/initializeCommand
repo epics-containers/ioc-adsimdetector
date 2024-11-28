@@ -1,13 +1,37 @@
 #!/bin/bash
 
+echo "devcontainerID ${1}"
+set -xe
+
 # custom initialization goes here - runs outside of the dev container
 # just before the container is launched but after the container is created
 
 FOLDER=$(dirname $(readlink -f $0))
 
-echo "devcontainerID ${1}"
+# make the config folder for the shared bash-config feature
+mkdir -p ${HOME}/.config/bash-config
 
-# make sure the shared network is created
-# TODO this would be better done with compose but compose and podman
-# in devcontainers is not currently stable.
-source $FOLDER/../compose/environment.sh
+# a function to test which of docker and podman is available
+function check_docker {
+    # return 0 if docker is detected, or 1 otherwise,
+    # cope with the possibility that podman is aliased to docker
+    if [[ $(docker version) =~ "Docker" ]]&> /dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+if check_docker; then
+    docker=docker
+else
+    docker=podman
+fi
+
+# make sure we have a network to share beteen the devcontainer and gateway container
+if ! $docker network inspect channel_access &>/dev/null ; then
+    $docker network create --subnet="170.21.0.0/16" channel_access
+fi
+
+# ensure local container users can access X11 server
+xhost +SI:localuser:$(id -un)
+
