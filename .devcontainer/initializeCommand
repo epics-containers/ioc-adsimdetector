@@ -1,35 +1,28 @@
 #!/bin/bash
 
-echo "devcontainerID ${1}"
-set -xe
-
 # custom initialization goes here - runs outside of the dev container
 # just before the container is launched but after the container is created
 
-FOLDER=$(dirname $(readlink -f $0))
+echo "initializeCommand for devcontainerID ${1}"
+set -xe
 
 # make the config folder for the shared bash-config feature
 mkdir -p ${HOME}/.config/bash-config
+# make a folder for auto-generated opi screens
+mkdir -p ./opi/auto-generated
 
-# a function to test which of docker and podman is available
-function check_docker {
-    # return 0 if docker is detected, or 1 otherwise,
-    # cope with the possibility that podman is aliased to docker
-    if [[ $(docker version) =~ "Docker" ]]&> /dev/null; then
-        return 0
-    fi
-    return 1
-}
 
-if check_docker; then
-    docker=docker
-else
+FOLDER=$(dirname $(readlink -f $0))
+
+if podman version &> /dev/null; then
     docker=podman
+else
+    docker=docker
 fi
 
 # make sure we have a network to share beteen the devcontainer and gateway container
-if ! $docker network inspect channel_access &>/dev/null ; then
-    $docker network create --subnet="170.21.0.0/16" channel_access
+if ! $docker network inspect channel_access_devcontainer &>/dev/null ; then
+    $docker network create --subnet="170.22.0.0/16" channel_access_devcontainer
 fi
 
 # ensure local container users can access X11 server

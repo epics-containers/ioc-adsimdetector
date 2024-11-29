@@ -15,8 +15,7 @@
     "remoteEnv": {
         // provides a name for epics-containers to use in bash prompt etc.
         "EC_PROJECT": "${localWorkspaceFolderBasename}",
-        "EPICS_CA_AUTO_ADDR_LIST": "NO",
-        "EPICS_CA_ADDR_LIST": "127.0.0.1"
+        "IOC_NAME": "DEV_TEST_IOC"
     },
     "features": {
         // add in eternal history and other bash features
@@ -24,8 +23,9 @@
     },
     // Create the config folder for the bash-config feature
     "initializeCommand": "bash .devcontainer/initializeCommand ${devcontainerId}",
-    // IMPORTANT for this devcontainer to work with docker EC_REMOTE_USER must be
-    // set to your user name. You will run with full sudo rights.
+    // IMPORTANT for this devcontainer to work with docker rootful
+    // EC_REMOTE_USER must be set to your user name. You will run with full
+    // sudo rights.
     // For podman it should be left blank. You will run as root but host mounts
     // will be owned by your user id.
     "remoteUser": "${localEnv:EC_REMOTE_USER}",
@@ -43,13 +43,18 @@
     // One time global setup commands inside the container
     "postCreateCommand": "bash .devcontainer/postCreateCommand ${devcontainerId}",
     "runArgs": [
-        // IMPORTANT: this network must exist before the container is created
-        // it will be created by initializeCommand. The network is shared by
-        // channel access clients and servers so they can communicate even
-        // when using rootless.
-        "--network=channel_access",
         // Make sure SELinux does not disable write access to host filesystems like tmp
         "--security-opt=label=disable"
+    ],
+    "appPort": [
+        // Expose Channel Access on the hosts loopback interface
+        // NOTE: change the first port number to run more than one devcontainer
+        // on the same host.
+        //
+        // To access two devcontainers from the host for example:
+        // EPICS_CA_ADDR_LIST="127.0.0.1:5064 127.0.0.1:6064"
+        "127.0.0.1:5064:5064/udp",
+        "127.0.0.1:5064-5065:5064-5065"
     ],
     // Mount the parent of the project folder so we can access peer projects
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
@@ -60,6 +65,6 @@
         // in this way the devcontainer and runtime look very similar
         "source=${localWorkspaceFolder},target=/epics/generic-source,type=bind",
         // Mount the opi folder so we can use phoebus from outside the container
-        "source=epics-opis,target=/epics/opi,type=bind,subpath=${localWorkspaceFolderBasename}"
+        "source=opi/auto-generated,target=/epics/opi,type=bind"
     ]
 }
