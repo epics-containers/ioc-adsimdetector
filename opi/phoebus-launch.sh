@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# A launcher for the phoebus container that allows X11 forwarding
+# A launcher for the phoebus to view the generated OPIs
 
 thisdir=$(realpath $(dirname $0))
 workspace=$(realpath ${thisdir}/..)
@@ -21,49 +21,29 @@ elif module load phoebus 2>/dev/null; then
     phoebus.sh ${settings} "${@}"
 
 else
-    echo "No phoebus module found, using a container"
+    echo "No local phoebus install found, using a container"
 
-    # podman vs docker differences.
-    if podman version &> /dev/null && [[ -z $USE_DOCKER ]] ; then
-        USER_ID=0; USER_GID=0
-        docker=podman
-    else
-        USER_ID=$(id -u); USER_GID=$(id -g)
-        docker=docker
+    if podman version &> /dev/null && [[ -z $USE_DOCKER ]] ;
+        then docker=podman
+        else docker=docker
     fi
+    echo "Using $docker as container runtime"
 
-    if [[ $(docker --version 2>/dev/null) == *Docker* ]]; then
-        docker=docker
-    else
-        docker=podman
-        args="--security-opt=label=type:container_runtime_t"
-    fi
+    # ensure local container users can access X11 server
+    xhost +SI:localuser:$(id -un)
 
-    x11="
-    -e DISPLAY
-    -v $XAUTH:$XAUTH
-    -e XAUTHORITY=$XAUTH
-    --net host
-    "
+    # settings for container launch
+    x11="-e DISPLAY --net host"
+    args=$"--rm -it --security-opt=label=none"
+    mounts="-v=/tmp:/tmp -v=${workspace}:/workspace"
+    image="ghcr.io/epics-containers/ec-phoebus:latest"
 
-    args=${args}"
-    -it --security-opt=label=none
-    "
-
-    # mount in your own home dir in same folder for access to external files
-    mounts="
-    -v=/tmp:/tmp
-    -v=${workspace}:/workspace
-    "
-
-    # settings for p47
     settings="
-    -resource /workspace/opi/p47-beamline.opi
     -settings /workspace/opi/settings.ini
+    -resource /workspace/opi/auto-generated/index.bob
     "
 
     set -x
-    $docker run ${mounts} ${args} ${x11} ghcr.io/epics-containers/ec-phoebus:latest ${settings} "${@}"
+    $docker run ${mounts} ${args} ${x11} ${image} ${settings} "${@}"
 
 fi
-
