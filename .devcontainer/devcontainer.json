@@ -21,7 +21,7 @@
         // add in eternal history and other bash features
         "ghcr.io/diamondlightsource/devcontainer-features/bash-config:1.0.0": {}
     },
-    // Create the config folder for the bash-config feature
+    // outside of the container setup
     "initializeCommand": "bash .devcontainer/initializeCommand ${devcontainerId}",
     // IMPORTANT for this devcontainer to work with docker rootful
     // EC_REMOTE_USER must be set to your user name. You will run with full
@@ -65,6 +65,6 @@
         // in this way the devcontainer and runtime look very similar
         "source=${localWorkspaceFolder},target=/epics/generic-source,type=bind",
         // Mount the opi folder so we can use phoebus from outside the container
-        "source=opi/auto-generated,target=/epics/opi,type=bind"
+        "source=${localWorkspaceFolder}/opi/auto-generated,target=/epics/opi,type=bind"
     ]
 }
