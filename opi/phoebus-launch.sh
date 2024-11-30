@@ -6,6 +6,7 @@ thisdir=$(realpath $(dirname $0))
 workspace=$(realpath ${thisdir}/..)
 
 settings="
+-resource ${workspace}/opi/bl01t-ea-ioc-02.bob
 -resource ${workspace}/opi/auto-generated/index.bob
 -settings ${workspace}/opi/settings.ini
 "
@@ -36,12 +37,13 @@ else
 
     # settings for container launch
     x11="-e DISPLAY --net host"
-    args=$"--rm -it --security-opt=label=none"
+    args="--rm -it --security-opt=label=none"
     mounts="-v=/tmp:/tmp -v=${workspace}:/workspace"
     image="ghcr.io/epics-containers/ec-phoebus:latest"
 
     settings="
     -settings /workspace/opi/settings.ini
+    -resource /workspace/opi/bl01t-ea-ioc-02.bob
     -resource /workspace/opi/auto-generated/index.bob
     "
 

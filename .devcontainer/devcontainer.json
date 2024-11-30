@@ -15,7 +15,7 @@
     "remoteEnv": {
         // provides a name for epics-containers to use in bash prompt etc.
         "EC_PROJECT": "${localWorkspaceFolderBasename}",
-        "IOC_NAME": "DEV_TEST_IOC"
+        "IOC_NAME": "BL01T-EA-TST-02"
     },
     "features": {
         // add in eternal history and other bash features
