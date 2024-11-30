@@ -7,6 +7,7 @@ if docker version &> /dev/null && [[ -z $USE_PODMAN ]]
     then docker=docker
     else docker=podman
 fi
+echo "Using $docker to launch the IOC"
 
 ca="-p 127.0.0.1:5064:5064/udp -p 127.0.0.1:5064-5065:5064-5065"
 pva="-p 127.0.0.1:5076:5076/udp -p 127.0.0.1:5075:5075"
