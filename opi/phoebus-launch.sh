@@ -5,10 +5,16 @@
 thisdir=$(realpath $(dirname $0))
 workspace=$(realpath ${thisdir}/..)
 
+// update settings.ini with the current EPICS_CA_SERVER_PORT and EPICS_CA_REPEATER_PORT
+cat ${workspace}/opi/settings.ini |
+    sed -r \
+    -e "s|5064|${EPICS_CA_SERVER_PORT:-5064}|" \
+    -e "s|5065|${EPICS_CA_REPEATER_PORT:-5065}|" > /tmp/settings.ini
+
 settings="
 -resource ${workspace}/opi/bl01t-ea-ioc-02.bob
 -resource ${workspace}/opi/auto-generated/index.bob
--settings ${workspace}/opi/settings.ini
+-settings /tmp/settings.ini
 "
 
 if which phoebus.sh &>/dev/null ; then
@@ -45,13 +51,6 @@ else
     -resource /workspace/opi/bl01t-ea-ioc-02.bob
     -resource /workspace/opi/auto-generated/index.bob
     "
-
-    // update settings.ini with the current EPICS_CA_SERVER_PORT and EPICS_CA_REPEATER_PORT
-    cat ${workspace}/opi/settings.ini |
-      sed -r \
-        -e "s|5064|${EPICS_CA_SERVER_PORT:-5064}|" \
-        -e "s|5065|${EPICS_CA_REPEATER_PORT:-5065}|" > /tmp/settings.ini
-
     set -x
     $docker run ${mounts} ${args} ${x11} ${image} ${settings} "${@}"
 
