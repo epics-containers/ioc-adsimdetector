@@ -29,7 +29,6 @@ else
         then docker=docker; UIDGID=$(id -u):$(id -g)
         else docker=podman; UIDGID=0:0
     fi
-
     echo "Using $docker as container runtime"
 
     # ensure local container users can access X11 server
@@ -42,10 +41,16 @@ else
     image="ghcr.io/epics-containers/ec-phoebus:latest"
 
     settings="
-    -settings /workspace/opi/settings.ini
+    -settings /tmp/settings.ini
     -resource /workspace/opi/bl01t-ea-ioc-02.bob
     -resource /workspace/opi/auto-generated/index.bob
     "
+
+    // update settings.ini with the current EPICS_CA_SERVER_PORT and EPICS_CA_REPEATER_PORT
+    cat ${workspace}/opi/settings.ini |
+      sed -r \
+        -e "s|5064|${EPICS_CA_SERVER_PORT:-5064}|" \
+        -e "s|5065|${EPICS_CA_REPEATER_PORT:-5065}|" > /tmp/settings.ini
 
     set -x
     $docker run ${mounts} ${args} ${x11} ${image} ${settings} "${@}"
