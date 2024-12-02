@@ -30,5 +30,10 @@ entities:
     R: ":ARR:"
     NDARRAY_PORT: DET.DET
     TYPE: Int8
+    NELEMENTS: 1048576
     FTVL: CHAR
-    NELEMENTS: 1310720
+
+  - type: epics.PostStartupCommand
+    command: |
+      dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1
+      dbpf BL01T-EA-TST-02:DET:Acquire 1
