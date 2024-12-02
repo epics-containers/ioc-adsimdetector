@@ -46,26 +46,19 @@
         // Make sure SELinux does not disable write access to host filesystems like tmp
         "--security-opt=label=disable"
     ],
-    "containerEnv": {
-        "EPICS_CA_SERVER_PORT": "${localEnv:EPICS_CA_SERVER_PORT}",
-        "EPICS_CA_REPEATER_PORT": "${localEnv:EPICS_CA_REPEATER_PORT}"
-    },
     "appPort": [
-        // Expose Channel Access on the hosts loopback interface
-        // NOTE: change EPICS_CA_SERVER_PORT and EPICS_CA_REPEATER_PORT in .env
-        // if you want to run multiple devcontainers on the same host.
+        // Expose Channel Access ports on the host's loopback interface
+        // Note: update the environment variables in .devcontainer/.env to
+        // change the ports when running multiple devcontainers simultaneously,
+        // then use e.g. EPICS_CA_ADDR_LIST="127.0.0.1:5064 127.0.0.1:6064"
+        // for clients to connect to multiple devcontainers' PVs.
         //
-        // To access two devcontainers from the host for example:
-        // EPICS_CA_ADDR_LIST="127.0.0.1:5064 127.0.0.1:6064"
+        "127.0.0.1:${remoteEnv:EPICS_CA_SERVER_PORT}:${remoteEnv:EPICS_CA_SERVER_PORT}/udp",
+        "127.0.0.1:${remoteEnv:EPICS_CA_SERVER_PORT}:${remoteEnv:EPICS_CA_SERVER_PORT}",
+        "127.0.0.1:${remoteEnv:EPICS_CA_REPEATER_PORT}:${remoteEnv:EPICS_CA_REPEATER_PORT}",
         //
-        "127.0.0.1:${localEnv:EPICS_CA_SERVER_PORT:5064}:${localEnv:EPICS_CA_SERVER_PORT:5064}/udp",
-        "127.0.0.1:${localEnv:EPICS_CA_SERVER_PORT:5064}:${localEnv:EPICS_CA_SERVER_PORT:5064}",
-        "127.0.0.1:${localEnv:EPICS_CA_REPEATER_PORT:5065}:${localEnv:EPICS_CA_REPEATER_PORT:5065}"
-        //
-        // PVA is TODO - see https://github.com/epics-containers/pva-demo
-        //
-        // "127.0.0.1:5076:5076/udp", PVA UDP does not work with NAT
-        // "5075-5076:5075-5076" # more investigation required
+        // Expose the PVA name server port on all host interfaces
+        "${remoteEnv:EPICS_PVA_SERVER_PORT}:${remoteEnv:EPICS_PVA_SERVER_PORT}"
     ],
     // Mount the parent of the project folder so we can access peer projects
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
