@@ -6,7 +6,6 @@ thisdir=$(realpath $(dirname $0))
 workspace=$(realpath ${thisdir}/..)
 
 # update settings.ini with CA and PVA ports
-source ${workspace}/.devcontainer/.env
 cat ${workspace}/opi/settings.ini |
     sed -r \
     -e "s|5064|${EPICS_CA_SERVER_PORT:-5064}|" \
