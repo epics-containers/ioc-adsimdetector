@@ -131,6 +131,7 @@ elif [ -f ${ibek_src} ]; then
     # get the ibek support yaml files this ioc's support modules
     defs=/epics/ibek-defs/*.ibek.support.yaml
     ibek runtime generate ${ibek_src} ${defs}
+    ibek runtime generate-autosave
 
     # build expanded database using msi
     if [ -f ${db_src} ]; then
@@ -145,6 +146,7 @@ elif [ -f ${ioc_startup} ] ; then
         # generate ioc.db from ioc.subst, including all templates from SUPPORT
         includes=$(for i in ${SUPPORT}/*/db; do echo -n "-I $i "; done)
         msi ${includes} -I${RUNTIME_DIR} -S ${CONFIG_DIR}/ioc.subst -o ${epics_db}
+        ibek runtime generate-autosave
     fi
     final_ioc_startup=${ioc_startup}
 # 4. incorrect config folder ***************************************************
