@@ -29,9 +29,6 @@ RUN iocStats/install.sh 3.2.0
 COPY ibek-support/asyn/ asyn/
 RUN asyn/install.sh R4-42
 
-COPY ibek-support/autosave/ autosave/
-RUN autosave/install.sh R5-11
-
 COPY ibek-support/busy/ busy/
 RUN busy/install.sh R1-7-3
 
@@ -46,6 +43,9 @@ RUN ADCore/install.sh R3-12-1
 
 COPY ibek-support/ADSimDetector/ ADSimDetector/
 RUN ADSimDetector/install.sh R2-10
+
+COPY ibek-support/autosave/ autosave/
+RUN autosave/install.sh R5-11
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
