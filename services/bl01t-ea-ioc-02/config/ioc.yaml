@@ -21,15 +21,6 @@ entities:
     WIDTH: 1024
     HEIGHT: 1024
 
-  - type: epics.PostStartupCommand
-    command: |
-      dbpf BL01T-EA-TST-02:DET:AcquireTime 0.1
-      dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:DET:Acquire 1
-
   - type: ADCore.NDROI
     PORT: DET.ROI
     P: BL01T-EA-TST-02
