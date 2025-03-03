@@ -84,3 +84,11 @@ entities:
     P: BL01T-EA-TST-02
     R: ":OVER:"
     NDARRAY_PORT: DET.PROC
+    NOverlays: 4
+
+  - type: ADCore.NDROIStat
+    PORT: DET.ROISTAT
+    P: BL01T-EA-TST-02
+    R: ":ROISTAT:"
+    NDARRAY_PORT: DET.PROC
+    MAX_ROIS: 4

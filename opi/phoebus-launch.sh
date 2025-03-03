@@ -20,12 +20,12 @@ settings="
 -settings /tmp/settings.ini
 "
 
-if which phoebus.sh &>/dev/null && [[ -z use_container ]] ; then
+if which phoebus.sh &>/dev/null && [[ -z ${use_container} ]] ; then
     echo "Using phoebus.sh from PATH"
     set -x
     phoebus.sh ${settings} "${@}"
 
-elif module load phoebus 2>/dev/null && [[ -z use_container ]] ; then
+elif module load phoebus 2>/dev/null && [[ -z ${use_container} ]] ; then
     echo "Using phoebus module"
     set -x
     phoebus.sh ${settings} "${@}"
@@ -36,12 +36,10 @@ else
     # prefer podman but use docker if USE_DOCKER is set
     if podman version &> /dev/null && [[ -z $USE_DOCKER ]]
         then docker=podman; UIDGID=0:0
-        else docker=docker; UIDGID=$(id -u):$(id -g)
+        else docker=docker; UIDGID=$(id -u):$(id -g); xhost +SI:localuser:$(id -un)
     fi
     echo "Using $docker as container runtime"
 
-    # ensure local container users can access X11 server
-    xhost +SI:localuser:$(id -un)
 
     # settings for container launch
     x11="-e DISPLAY --net host"
