@@ -28,6 +28,7 @@ entities:
       dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
+      dbpf BL01T-EA-TST-02:OVER:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:DET:Acquire 1
 
   - type: ADCore.NDROI
@@ -48,15 +49,6 @@ entities:
     P: BL01T-EA-TST-02
     R: ":PVA:"
     NDARRAY_PORT: DET.DET
-
-  - type: ADCore.NDStdArrays
-    PORT: DET.ARR
-    P: BL01T-EA-TST-02
-    R: ":ARR:"
-    NDARRAY_PORT: DET.PROC
-    TYPE: Int8
-    NELEMENTS: 1048576
-    FTVL: CHAR
 
   - type: ADCore.NDStats
     PORT: DET.STAT
@@ -92,3 +84,12 @@ entities:
     R: ":ROISTAT:"
     NDARRAY_PORT: DET.PROC
     MAX_ROIS: 4
+
+  - type: ADCore.NDStdArrays
+    PORT: DET.ARR
+    P: BL01T-EA-TST-02
+    R: ":ARR:"
+    NDARRAY_PORT: DET.OVER
+    TYPE: Int8
+    NELEMENTS: 1048576
+    FTVL: UCHAR
