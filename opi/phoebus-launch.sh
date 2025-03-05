@@ -18,6 +18,7 @@ settings="
 -resource ${workspace}/opi/bl01t-ea-ioc-02.bob
 -resource ${workspace}/opi/auto-generated/index.bob
 -settings /tmp/settings.ini
+-server 2200
 "
 
 if which phoebus.sh &>/dev/null && [[ -z ${use_container} ]] ; then
@@ -51,6 +52,7 @@ else
     -resource /workspace/opi/auto-generated/index.bob
     -resource /workspace/opi/bl01t-ea-ioc-02.bob
     -settings /tmp/settings.ini
+    -server 2200
     "
     set -x
     $docker run ${mounts} ${args} ${x11} ${image} ${settings} "${@}"
