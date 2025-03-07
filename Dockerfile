@@ -41,6 +41,9 @@ RUN calc/install.sh R3-7-5
 COPY ibek-support/ADCore/ ADCore/
 RUN ADCore/install.sh R3-12-1
 
+COPY ibek-support/ffmpegServer/ ffmpegServer/
+RUN ffmpegServer/install.sh R3-2
+
 COPY ibek-support/ADSimDetector/ ADSimDetector/
 RUN ADSimDetector/install.sh R2-10
 
