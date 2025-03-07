@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#Comment out this variable if you want to use your local phoebus
 use_container=1
 
 # A launcher for the phoebus to view the generated OPIs

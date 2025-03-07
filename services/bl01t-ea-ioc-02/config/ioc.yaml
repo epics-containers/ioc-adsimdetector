@@ -29,7 +29,9 @@ entities:
       dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:OVER:EnableCallbacks 1
+      dbpf BL01T-EA-TST-02:MJPG:EnableCallbacks 1
       dbpf BL01T-EA-TST-02:DET:Acquire 1
+      dbpf BL01T-EA-TST-02:OVER:1:Shape Cross
 
   - type: ADCore.NDROI
     PORT: DET.ROI
@@ -93,3 +95,15 @@ entities:
     TYPE: Int8
     NELEMENTS: 1048576
     FTVL: UCHAR
+
+  - type: ffmpegServer.ffmpegStream
+    PORT: DET.MJPG
+    P: BL01T-EA-TST-02
+    R: ":MJPG:"
+    NDARRAY_PORT: DET.PROC
+
+  - type: ffmpegServer.ffmpegFile
+    PORT: DET.MPEG
+    P: BL01T-EA-TST-02
+    R: ":MPEG:"
+    NDARRAY_PORT: DET.PROC
