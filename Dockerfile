@@ -8,6 +8,11 @@ ARG DEVELOPER=${REGISTRY}/epics-base${IMAGE_EXT}-developer:${BASE}
 ##### build stage ##############################################################
 FROM  ${DEVELOPER} AS developer
 
+# TODO this will go in epics-base
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y ansible-core && \
+    rm -rf /var/lib/apt/lists/*
+
 # The devcontainer mounts the project root to /epics/generic-source
 # Using the same location here makes devcontainer/runtime differences transparent.
 ENV SOURCE_FOLDER=/epics/generic-source
@@ -20,41 +25,43 @@ RUN pip install --upgrade -r requirements.txt
 
 WORKDIR ${SOURCE_FOLDER}/ibek-support
 
-# copy the global ibek files
 COPY ibek-support/_global/ _global
+COPY ibek-support/_ansible _ansible
+RUN ln -s _ansible/ansible.sh .
 
 COPY ibek-support/iocStats/ iocStats
-RUN iocStats/install.sh 3.2.0
+RUN ./ansible.sh iocStats
 
-COPY ibek-support/asyn/ asyn/
-RUN asyn/install.sh R4-42
+COPY ibek-support/asyn/ asyn
+RUN ./ansible.sh asyn
 
-COPY ibek-support/busy/ busy/
-RUN busy/install.sh R1-7-3
+COPY ibek-support/busy/ busy
+RUN ./ansible.sh busy
 
-COPY ibek-support/sscan/ sscan/
-RUN sscan/install.sh R2-11-6
+COPY ibek-support/sscan/ sscan
+RUN ./ansible.sh sscan
 
-COPY ibek-support/calc/ calc/
-RUN calc/install.sh R3-7-5
+COPY ibek-support/calc/ calc
+RUN ./ansible.sh calc
 
-COPY ibek-support/ADCore/ ADCore/
-RUN ADCore/install.sh R3-12-1
+COPY ibek-support/ADCore/ ADCore
+RUN ./ansible.sh ADCore
 
-COPY ibek-support/ffmpegServer/ ffmpegServer/
-RUN ffmpegServer/install.sh R3-2
+COPY ibek-support/ffmpegServer/ ffmpegServer
+RUN ./ansible.sh ffmpegServer
 
-COPY ibek-support/ADSimDetector/ ADSimDetector/
-RUN ADSimDetector/install.sh R2-10
+COPY ibek-support/ADSimDetector/ ADSimDetector
+RUN ./ansible.sh ADSimDetector
 
-COPY ibek-support/autosave/ autosave/
-RUN autosave/install.sh R5-11
+COPY ibek-support/autosave/ autosave
+RUN ./ansible.sh autosave
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
-RUN cd ${IOC} && ./install.sh && make
+RUN cd ${IOC} && ./ansible_ioc.sh && make
 
 # install runtime proxy for non-native builds
+# TODO: get ansible to do this bit too
 RUN bash ${IOC}/install_proxy.sh
 
 ##### runtime preparation stage ################################################
