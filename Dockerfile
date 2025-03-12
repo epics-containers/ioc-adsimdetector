@@ -58,11 +58,8 @@ RUN ./ansible.sh autosave
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
-RUN cd ${IOC} && ./ansible_ioc.sh && make
-
-# install runtime proxy for non-native builds
-# TODO: get ansible to do this bit too
-RUN bash ${IOC}/install_proxy.sh
+RUN cd ${IOC} && \
+    ./ansible_ioc.sh
 
 ##### runtime preparation stage ################################################
 FROM developer AS runtime_prep
