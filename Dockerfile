@@ -57,8 +57,7 @@ RUN ./ansible.sh autosave
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
-RUN cd ${IOC} && \
-    ./ansible_ioc.sh
+RUN ./ansible.sh ioc
 
 ##### runtime preparation stage ################################################
 FROM developer AS runtime_prep
