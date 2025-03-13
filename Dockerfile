@@ -25,7 +25,6 @@ RUN pip install --upgrade -r requirements.txt
 
 WORKDIR ${SOURCE_FOLDER}/ibek-support
 
-COPY ibek-support/_global/ _global
 COPY ibek-support/_ansible _ansible
 RUN ln -s _ansible/ansible.sh .
 
