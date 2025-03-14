@@ -37,7 +37,8 @@
                 "redhat.vscode-yaml",
                 "epicsdeb.vscode-epics",
                 "charliermarsh.ruff",
-                "ms-vscode.cpptools"
+                "ms-vscode.cpptools",
+                "redhat.ansible"
             ]
         }
     },
