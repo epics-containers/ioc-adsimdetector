@@ -26,38 +26,38 @@ RUN pip install --upgrade -r requirements.txt
 WORKDIR ${SOURCE_FOLDER}/ibek-support
 
 COPY ibek-support/_ansible _ansible
-RUN ln -s _ansible/ansible.sh .
+ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
 
 COPY ibek-support/iocStats/ iocStats
-RUN ./ansible.sh iocStats
+RUN ansible.sh iocStats
 
 COPY ibek-support/asyn/ asyn
-RUN ./ansible.sh asyn
+RUN ansible.sh asyn
 
 COPY ibek-support/busy/ busy
-RUN ./ansible.sh busy
+RUN ansible.sh busy
 
 COPY ibek-support/sscan/ sscan
-RUN ./ansible.sh sscan
+RUN ansible.sh sscan
 
 COPY ibek-support/calc/ calc
-RUN ./ansible.sh calc
+RUN ansible.sh calc
 
 COPY ibek-support/ADCore/ ADCore
-RUN ./ansible.sh ADCore
+RUN ansible.sh ADCore
 
 COPY ibek-support/ffmpegServer/ ffmpegServer
-RUN ./ansible.sh ffmpegServer
+RUN ansible.sh ffmpegServer
 
 COPY ibek-support/ADSimDetector/ ADSimDetector
-RUN ./ansible.sh ADSimDetector
+RUN ansible.sh ADSimDetector
 
 COPY ibek-support/autosave/ autosave
-RUN ./ansible.sh autosave
+RUN ansible.sh autosave
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
-RUN ./ansible.sh ioc
+RUN ansible.sh ioc
 
 ##### runtime preparation stage ################################################
 FROM developer AS runtime_prep
