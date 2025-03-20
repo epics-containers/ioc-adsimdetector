@@ -1,17 +1,12 @@
 ARG IMAGE_EXT
 
-ARG BASE=7.0.8ec2
+ARG BASE=7.0.8ad3
 ARG REGISTRY=ghcr.io/epics-containers
 ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:${BASE}
 ARG DEVELOPER=${REGISTRY}/epics-base${IMAGE_EXT}-developer:${BASE}
 
 ##### build stage ##############################################################
 FROM  ${DEVELOPER} AS developer
-
-# TODO this will go in epics-base
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y ansible-core && \
-    rm -rf /var/lib/apt/lists/*
 
 # The devcontainer mounts the project root to /epics/generic-source
 # Using the same location here makes devcontainer/runtime differences transparent.
