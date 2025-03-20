@@ -26,6 +26,9 @@ ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
 COPY ibek-support/iocStats/ iocStats
 RUN ansible.sh iocStats
 
+COPY ibek-support/pvlogging/ pvlogging/
+RUN ansible.sh pvlogging
+
 COPY ibek-support/asyn/ asyn
 RUN ansible.sh asyn
 
