@@ -107,3 +107,9 @@ entities:
     P: BL01T-EA-TST-02
     R: ":MPEG:"
     NDARRAY_PORT: DET.PROC
+
+  - type: ADCore.NDFileNetCDF
+    PORT: DET.CDF
+    P: BL01T-EA-TST-02
+    R: ":NCDF:"
+    NDARRAY_PORT: DET.DET
