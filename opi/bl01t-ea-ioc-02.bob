@@ -55,7 +55,7 @@
           <description>Open Display</description>
         </action>
       </actions>
-      <text>BL01T-EA-TST-02</text>
+      <text>BL01T-DI-CAM-01</text>
       <x>153</x>
       <y>5</y>
       <width>205</width>
@@ -66,7 +66,7 @@
   <widget type="group" version="3.0.0">
     <name>Sample Camera</name>
     <macros>
-      <P>BL01T-EA-TST-02</P>
+      <P>BL01T-DI-CAM-01</P>
       <R>:DET:</R>
     </macros>
     <y>36</y>
@@ -393,7 +393,7 @@
   </widget>
   <widget type="image" version="2.0.0">
     <name>Image_2</name>
-    <pv_name>BL01T-EA-TST-02:ARR:ArrayData</pv_name>
+    <pv_name>BL01T-DI-CAM-01:ARR:ArrayData</pv_name>
     <x>396</x>
     <y>36</y>
     <width>670</width>
