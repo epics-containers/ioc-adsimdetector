@@ -7,14 +7,14 @@ description: Example simulated camera
 entities:
   - type: autosave.Autosave
     settings_req_period: 10
-    P: "BL01T-EA-TST-02:"
+    P: "BL01T-DI-CAM-01:"
 
   - type: devIocStats.iocAdminSoft
     IOC: "{{ ioc_name | upper }}"
 
   - type: ADSimDetector.simDetector
     PORT: DET.DET
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":DET:"
     # DATATYPE:0 = Int8 - TODO add an enum to the support yaml
     DATATYPE: 0
@@ -23,38 +23,38 @@ entities:
 
   - type: epics.PostStartupCommand
     command: |
-      dbpf BL01T-EA-TST-02:DET:AcquireTime 0.1
-      dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:OVER:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:MJPG:EnableCallbacks 1
-      dbpf BL01T-EA-TST-02:DET:Acquire 1
-      dbpf BL01T-EA-TST-02:OVER:1:Shape Cross
+      dbpf BL01T-DI-CAM-01:DET:AcquireTime 0.1
+      dbpf BL01T-DI-CAM-01:ARR:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:PROC:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:ROI:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:PVA:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:OVER:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:MJPG:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:DET:Acquire 1
+      dbpf BL01T-DI-CAM-01:OVER:1:Shape Cross
 
   - type: ADCore.NDROI
     PORT: DET.ROI
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":ROI:"
     NDARRAY_PORT: DET.DET
 
   - type: ADCore.NDProcess
     PORT: DET.PROC
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":PROC:"
     NDARRAY_PORT: DET.ROI
 
   - type: ADCore.NDPvaPlugin
     PORT: DET.PVA
-    PVNAME: BL01T-EA-TST-02:PVA:OUTPUT
-    P: BL01T-EA-TST-02
+    PVNAME: BL01T-DI-CAM-01:PVA:OUTPUT
+    P: BL01T-DI-CAM-01
     R: ":PVA:"
     NDARRAY_PORT: DET.DET
 
   - type: ADCore.NDStats
     PORT: DET.STAT
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":STAT:"
     NDARRAY_PORT: DET.DET
     XSIZE: 1024
@@ -63,33 +63,33 @@ entities:
 
   - type: ADCore.NDFileHDF5
     PORT: DET.HDF
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":HDF:"
     NDARRAY_PORT: DET.PROC
 
   - type: ADCore.NDFileTIFF
     PORT: DET.TIFF
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":TIFF:"
     NDARRAY_PORT: DET.PROC
 
   - type: ADCore.NDOverlay
     PORT: DET.OVER
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":OVER:"
     NDARRAY_PORT: DET.PROC
     NOverlays: 4
 
   - type: ADCore.NDROIStat
     PORT: DET.ROISTAT
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":ROISTAT:"
     NDARRAY_PORT: DET.PROC
     MAX_ROIS: 4
 
   - type: ADCore.NDStdArrays
     PORT: DET.ARR
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":ARR:"
     NDARRAY_PORT: DET.OVER
     TYPE: Int8
@@ -98,18 +98,18 @@ entities:
 
   - type: ffmpegServer.ffmpegStream
     PORT: DET.MJPG
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":MJPG:"
     NDARRAY_PORT: DET.PROC
 
   - type: ffmpegServer.ffmpegFile
     PORT: DET.MPEG
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":MPEG:"
     NDARRAY_PORT: DET.PROC
 
   - type: ADCore.NDFileNetCDF
     PORT: DET.CDF
-    P: BL01T-EA-TST-02
+    P: BL01T-DI-CAM-01
     R: ":NCDF:"
     NDARRAY_PORT: DET.DET
