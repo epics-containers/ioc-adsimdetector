@@ -50,9 +50,6 @@ RUN ansible.sh ffmpegServer
 COPY ibek-support/ADSimDetector/ ADSimDetector
 RUN ansible.sh ADSimDetector
 
-COPY ibek-support/autosave/ autosave
-RUN ansible.sh autosave
-
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
 RUN ansible.sh ioc
