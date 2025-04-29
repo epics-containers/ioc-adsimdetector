@@ -11,9 +11,10 @@ workspace=$(realpath ${thisdir}/..)
 # update settings.ini with CA and PVA ports
 cat ${workspace}/opi/settings.ini |
     sed -r \
-    -e "s|5064|${EPICS_CA_SERVER_PORT:-5064}|" \
+    -e "s|5064|${EPICS_CA_SERVER_PORT:-7064}|" \
     -e "s|5075|${EPICS_PVA_SERVER_PORT:-5075}|" \
-    -e "s|5065|${EPICS_CA_REPEATER_PORT:-5065}|" > /tmp/settings.ini
+    -e "s|5076|${EPICS_PVA_BROADCAST_PORT:-7076}|" \
+    -e "s|5065|${EPICS_CA_REPEATER_PORT:-7065}|" > /tmp/settings.ini
 
 settings="
 -resource ${workspace}/opi/bl01t-ea-ioc-02.bob

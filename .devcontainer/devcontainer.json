@@ -15,7 +15,11 @@
     "containerEnv": {
         // provides a name for epics-containers to use in bash prompt etc.
         "EC_PROJECT": "${localWorkspaceFolderBasename}",
-        "IOC_NAME": "BL01T-EA-TST-02"
+        "IOC_NAME": "BL01T-EA-TST-02",
+        "EPICS_CA_SERVER_PORT": "7064",
+        "EPICS_PVAS_SERVER_PORT": "7075",
+        "EPICS_PVA_SERVER_PORT": "7075",
+        "EPICS_PVA_BROADCAST_PORT": "7076"
     },
     "features": {
         // add in eternal history and other bash features
@@ -46,7 +50,8 @@
     "postCreateCommand": "bash .devcontainer/postCreateCommand ${devcontainerId}",
     "runArgs": [
         // Make sure SELinux does not disable write access to host filesystems like tmp
-        "--security-opt=label=disable"
+        "--security-opt=label=disable",
+        "--network=host"
     ],
     // Mount the parent of the project folder so we can access peer projects
     "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind",
