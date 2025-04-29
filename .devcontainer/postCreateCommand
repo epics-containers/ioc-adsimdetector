@@ -32,3 +32,14 @@ sed -i $HOME/.zshrc -e 's/^ZSH_THEME.*$/ZSH_THEME="dst"/' -e '/^RPS1=/d'
 if [[ -f /workspaces/.devcontainer_rc ]] ; then
     source /workspaces/.devcontainer_rc
 fi
+
+################################################################################
+# build the support listed in the root Dockerfile plus the ioc binary
+
+# TODO -do symlinks to local support modules where needed - use a configuration
+# file to list the ones to symlink
+#e.g.
+rm -rf /epics/support/ADCore
+ln -s /workspaces/ADCore /epics/support/ADCore
+
+ansible.sh all -e skip_clean=true

@@ -44,9 +44,6 @@ RUN ansible.sh calc
 COPY ibek-support/ADCore/ ADCore
 RUN ansible.sh ADCore
 
-COPY ibek-support/ffmpegServer/ ffmpegServer
-RUN ansible.sh ffmpegServer
-
 COPY ibek-support/ADSimDetector/ ADSimDetector
 RUN ansible.sh ADSimDetector
 

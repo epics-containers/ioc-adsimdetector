@@ -2,7 +2,7 @@
 {
     "name": "epics-containers IOC devcontainer",
     "build": {
-        "dockerfile": "../Dockerfile",
+        "dockerfile": "../Dockerfile.devcontainer",
         "target": "developer",
         "args": {
             // Native target development settings ==============================
