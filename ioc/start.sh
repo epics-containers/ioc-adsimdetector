@@ -169,7 +169,7 @@ fi
 if [[ ${EPICS_TARGET_ARCH} == "linux-x86_64" ]] ; then
     # Execute the IOC binary and pass the startup script as an argument
     # wrap it with expose-stdio - TODO ADD THIS TO ioc-template
-    exec expose-stdio "${IOC}/bin/linux-x86_64/ioc ${final_ioc_startup}"
+    exec stdio-expose "${IOC}/bin/linux-x86_64/ioc ${final_ioc_startup}"
 else
     # for not native architectures use the appropriate python package
     if [[ -f ${CONFIG_DIR}/proxy-start.sh ]]; then
