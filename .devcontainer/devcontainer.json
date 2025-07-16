@@ -16,6 +16,8 @@
         // provides a name for epics-containers to use in bash prompt etc.
         "EC_PROJECT": "${localWorkspaceFolderBasename}",
         "IOC_NAME": "BL01T-EA-TST-02"
+        // fixes this error: Ansible could not initialize the preferred locale: unsupported locale setting
+        "LC_ALL": "C.UTF-8"
     },
     "features": {
         // add in eternal history and other bash features
