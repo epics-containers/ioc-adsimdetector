@@ -61,7 +61,7 @@ entities:
     R: ":PROC:"
     NDARRAY_PORT: DET.ROI
 
-  - type: ADCore.NDPvaPlugin
+  - type: ADCore.NDPvxsPlugin
     PORT: DET.PVA
     PVNAME: BL01T-EA-TST-02:PVA:OUTPUT
     P: BL01T-EA-TST-02
