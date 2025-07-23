@@ -29,6 +29,9 @@ RUN ansible.sh iocStats
 COPY ibek-support/pvlogging/ pvlogging/
 RUN ansible.sh pvlogging
 
+COPY ibek-support/autosave/ autosave
+RUN ansible.sh autosave
+
 COPY ibek-support/asyn/ asyn
 RUN ansible.sh asyn
 
@@ -50,8 +53,6 @@ RUN ansible.sh ffmpegServer
 COPY ibek-support/ADSimDetector/ ADSimDetector
 RUN ansible.sh ADSimDetector
 
-COPY ibek-support/autosave/ autosave
-RUN ansible.sh autosave
 
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
