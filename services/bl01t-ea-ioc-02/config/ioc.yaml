@@ -33,6 +33,12 @@ entities:
       dbpf BL01T-DI-CAM-01:DET:Acquire 1
       dbpf BL01T-DI-CAM-01:OVER:1:Shape Cross
 
+  - type: ffmpegServer.ffmpegStream
+    PORT: DET.MJPG
+    P: BL01T-DI-CAM-01
+    R: ":MJPG:"
+    NDARRAY_PORT: DET.DET
+
   - type: ADCore.NDROI
     PORT: DET.ROI
     P: BL01T-DI-CAM-01
@@ -45,7 +51,7 @@ entities:
     R: ":PROC:"
     NDARRAY_PORT: DET.ROI
 
-  - type: ADCore.NDPvaPlugin
+  - type: ADCore.NDPvxsPlugin
     PORT: DET.PVA
     PVNAME: BL01T-DI-CAM-01:PVA:OUTPUT
     P: BL01T-DI-CAM-01

@@ -1,6 +1,6 @@
 ARG IMAGE_EXT
 
-ARG BASE=7.0.8ad3
+ARG BASE=7.0.9ec4
 ARG REGISTRY=ghcr.io/epics-containers
 ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:${BASE}
 ARG DEVELOPER=${REGISTRY}/epics-base${IMAGE_EXT}-developer:${BASE}
@@ -16,7 +16,7 @@ RUN ln -s ${SOURCE_FOLDER}/ioc ${IOC}
 
 # Get the current version of ibek
 COPY requirements.txt requirements.txt
-RUN pip install --upgrade -r requirements.txt
+RUN uv pip install --upgrade -r requirements.txt
 
 WORKDIR ${SOURCE_FOLDER}/ibek-support
 
@@ -61,7 +61,8 @@ RUN ansible.sh ioc
 FROM developer AS runtime_prep
 
 # get the products from the build stage and reduce to runtime assets only
-RUN ibek ioc extract-runtime-assets /assets
+# TODO /python is created by uv - add to apt-install-runtime-packages' defaults
+RUN ibek ioc extract-runtime-assets /assets /python
 
 ##### runtime stage ############################################################
 FROM ${RUNTIME} AS runtime
@@ -70,10 +71,10 @@ FROM ${RUNTIME} AS runtime
 COPY --from=runtime_prep /assets /
 
 # install runtime system dependencies, collected from install.sh scripts
-RUN ibek support apt-install-runtime-packages --skip-non-native
+RUN ibek support apt-install-runtime-packages
 
 # launch the startup script with stdio-expose to allow console connections
-CMD ["bash", "-c", "stdio-expose ${IOC}/start.sh"]
+CMD ["bash", "-c", "${IOC}/start.sh"]
 
 ##### stage that fully configures the example IOC ##################
 
