@@ -5,9 +5,9 @@ ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 description: Example simulated camera
 
 entities:
-  - type: autosave.Autosave
-    settings_req_period: 10
-    P: "BL01T-DI-CAM-01:"
+  # - type: autosave.Autosave
+  #   settings_req_period: 10
+  #   P: "BL01T-DI-CAM-01:"
 
   - type: devIocStats.iocAdminSoft
     IOC: "{{ ioc_name | upper }}"
@@ -27,17 +27,17 @@ entities:
       dbpf BL01T-DI-CAM-01:ARR:EnableCallbacks 1
       dbpf BL01T-DI-CAM-01:PROC:EnableCallbacks 1
       dbpf BL01T-DI-CAM-01:ROI:EnableCallbacks 1
-      dbpf BL01T-DI-CAM-01:PVA:EnableCallbacks 1
+      dbpf BL01T-DI-CAM-01:PVXS:EnableCallbacks 1
       dbpf BL01T-DI-CAM-01:OVER:EnableCallbacks 1
       dbpf BL01T-DI-CAM-01:MJPG:EnableCallbacks 1
       dbpf BL01T-DI-CAM-01:DET:Acquire 1
       dbpf BL01T-DI-CAM-01:OVER:1:Shape Cross
 
-  - type: ffmpegServer.ffmpegStream
-    PORT: DET.MJPG
-    P: BL01T-DI-CAM-01
-    R: ":MJPG:"
-    NDARRAY_PORT: DET.DET
+  # - type: ffmpegServer.ffmpegStream
+  #   PORT: DET.MJPG
+  #   P: BL01T-DI-CAM-01
+  #   R: ":MJPG:"
+  #   NDARRAY_PORT: DET.DET
 
   - type: ADCore.NDROI
     PORT: DET.ROI
@@ -50,13 +50,6 @@ entities:
     P: BL01T-DI-CAM-01
     R: ":PROC:"
     NDARRAY_PORT: DET.ROI
-
-  - type: ADCore.NDPvxsPlugin
-    PORT: DET.PVA
-    PVNAME: BL01T-DI-CAM-01:PVA:OUTPUT
-    P: BL01T-DI-CAM-01
-    R: ":PVA:"
-    NDARRAY_PORT: DET.DET
 
   - type: ADCore.NDStats
     PORT: DET.STAT
@@ -107,3 +100,18 @@ entities:
     P: BL01T-DI-CAM-01
     R: ":NCDF:"
     NDARRAY_PORT: DET.DET
+
+  - type: ADCore.NDPvxsPlugin
+    PORT: DET.PVXS
+    PVNAME: BL01T-DI-CAM-01:PVXS:OUTPUT
+    P: BL01T-DI-CAM-01
+    R: ":PVXS:"
+    NDARRAY_PORT: DET.DET
+
+  - type: pvxsDriver.pvxsDetector
+    PORT: DET.PVXSD
+    P: BL01T-DI-CAM-01
+    R: ":PVXSD:"
+    PVNAME: BL01T-DI-CAM-01:PVXS:OUTPUT
+    TIMEOUT: "10"
+    ADDR: "0"

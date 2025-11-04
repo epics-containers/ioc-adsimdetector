@@ -53,6 +53,9 @@ RUN ansible.sh ADSimDetector
 COPY ibek-support/autosave/ autosave
 RUN ansible.sh autosave
 
+COPY ibek-support/pvxsDriver/ pvxsDriver
+RUN ansible.sh pvxsDriver
+
 # get the ioc source and build it
 COPY ioc ${SOURCE_FOLDER}/ioc
 RUN ansible.sh ioc
