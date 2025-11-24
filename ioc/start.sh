@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# log commands and stop on errors
-set -xe
-
 # wrap the console *************************************************************
 
 if [[ -n ${KUBERNETES_PORT} && -z ${STDIO_EXPOSED} ]]; then
@@ -21,6 +18,9 @@ function ibek_error {
 }
 
 trap ibek_error ERR
+
+# log commands and stop on errors
+set -xe
 
 # environment setup ************************************************************
 
