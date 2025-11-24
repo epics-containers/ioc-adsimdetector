@@ -13,7 +13,7 @@ entities:
     IOC: "{{ ioc_name | upper }}"
 
   - type: epics.StartupCommand
-    command: dbLoadRecords("/epics/ioc/config/ioc.db")
+    command: dbLoadRecords("/epics/ioc/config/example.db")
 
   - type: epics.dbpf
     pv: EXAMPLE:IBEK:A
