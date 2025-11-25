@@ -1,9 +1,8 @@
 ARG IMAGE_EXT
 
-ARG BASE=3.14ec1
 ARG REGISTRY=ghcr.io/epics-containers
-ARG RUNTIME=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-runtime:${BASE}
-ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:${BASE}
+ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.9ec4
+ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:3.14ec1
 
 ##### build stage ##############################################################
 FROM  ${DEVELOPER} AS developer
