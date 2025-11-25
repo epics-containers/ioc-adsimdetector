@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../ibek-runtime-support/runtime.schema.json
+# yaml-language-server: $schema=../runtime.schema.json
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 
 description: additional entities from the services repo
