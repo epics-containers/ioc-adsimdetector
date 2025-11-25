@@ -13,7 +13,7 @@ function ibek_error {
     echo "Error on line $BASH_LINENO: $BASH_COMMAND (exit code: $?)"
 
     # Wait for a bit so the container does not exit and restart continually
-    sleep 120
+    sleep 10
     exit 1
 }
 
