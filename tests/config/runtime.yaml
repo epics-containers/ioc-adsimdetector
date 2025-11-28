@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=../runtime.schema.json
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: additional entities from the services repo
+
+entities:
+  - type: detectorPlugins.gdaPlugins
+    P: BL01T-EA-TST-02
+    CAM: DET.DET
+    PORTPREFIX: DET
