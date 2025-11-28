@@ -1,4 +1,4 @@
-ARG IMAGE_EXT
+SARG IMAGE_EXT
 
 ARG REGISTRY=ghcr.io/epics-containers
 ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.9ec5
@@ -33,7 +33,7 @@ RUN ansible.sh ioc
 FROM developer AS runtime_prep
 
 # get the products from the build stage and reduce to runtime assets only
-# TODO /python is created by uv - add to apt-install-runtime-packages' defaults
+# /python is created by uv and is needed in the runtime target
 RUN ibek ioc extract-runtime-assets /assets /python
 
 ##### runtime stage ############################################################
