@@ -13,9 +13,9 @@ ENV SOURCE_FOLDER=/epics/generic-source
 # connect ioc source folder to its know location
 RUN ln -s ${SOURCE_FOLDER}/ioc ${IOC}
 
-# Get the current version of ibek (uncomment if a new version of ibek is required)
-# COPY requirements.txt requirements.txt
-# RUN uv pip install --upgrade -r requirements.txt
+# Get the current version of ibek
+COPY requirements.txt requirements.txt
+RUN uv pip install --upgrade -r requirements.txt
 
 WORKDIR ${SOURCE_FOLDER}/ibek-support
 
