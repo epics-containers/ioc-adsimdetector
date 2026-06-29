@@ -52,7 +52,6 @@ else
 
     settings="
     -resource /workspace/opi/auto-generated/index.bob
-    -resource /workspace/opi/bl01t-ea-ioc-02.bob
     -settings /tmp/settings.ini
     -server 2200
     "
