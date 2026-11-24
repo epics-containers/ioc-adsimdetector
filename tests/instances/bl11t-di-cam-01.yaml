@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=../ioc.schema.json
+# Copied from https://gitlab.diamond.ac.uk/controls/containers/beamline/t11-services
+# services/bl11t-di-cam-01/config/ioc.yaml at commit fca36069e308e28db53345ef842e72a97be94069
+# Unchanged: it has no device addresses or passwords.
+# tests/run-tests.sh runs it with start.sh --test, which generates the
+# runtime assets but does not launch the IOC.
+
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: Example simulated camera for BL11T
+
+entities:
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: GMT0BST
+
+  - type: devIocStats.iocAdminSoft
+    IOC: "{{ ioc_name | upper }}"
+
+  - type: autosave.Autosave
+    P: "BL11T-DI-CAM-01:"
+
+  - type: ADSimDetector.simDetector
+    PORT: CAM.DRV
+    P: BL11T-DI-CAM-01
+    R: ":DRV:"
+    # DATATYPE:0 = Int8 - TODO add an enum to the support yaml
+    DATATYPE: 0
+    WIDTH: 1024
+    HEIGHT: 1024
+
+  - type: epics.PostStartupCommand
+    command: |
+      dbpf BL11T-DI-CAM-01:DRV:AcquireTime 0.1
+      dbpf BL11T-DI-CAM-01:ARR:EnableCallbacks 1
+      dbpf BL11T-DI-CAM-01:PROC:EnableCallbacks 1
+      dbpf BL11T-DI-CAM-01:ROI:EnableCallbacks 1
+      dbpf BL11T-DI-CAM-01:PVA:EnableCallbacks 1
+      dbpf BL11T-DI-CAM-01:STAT:EnableCallbacks 1
+      dbpf BL11T-DI-CAM-01:HDF5:FilePath "/data/"
+      dbpf BL11T-DI-CAM-01:TIFF:FilePath "/data/"
+      dbpf BL11T-DI-CAM-01:NCDF:FilePath "/data/"
+      dbpf BL11T-DI-CAM-01:DRV:Acquire 1
+
+  - type: ADCore.NDROI
+    PORT: CAM.ROI
+    P: BL11T-DI-CAM-01
+    R: ":ROI:"
+    NDARRAY_PORT: CAM.DRV
+
+  - type: ADCore.NDProcess
+    PORT: CAM.PROC
+    P: BL11T-DI-CAM-01
+    R: ":PROC:"
+    NDARRAY_PORT: CAM.ROI
+
+  - type: ADCore.NDPvxsPlugin
+    PORT: CAM.PVA
+    PVNAME: BL11T-DI-CAM-01:PVA:ARRAY
+    P: BL11T-DI-CAM-01
+    R: ":PVA:"
+    NDARRAY_PORT: CAM.DRV
+
+  - type: ADCore.NDStdArrays
+    PORT: CAM.ARR
+    P: BL11T-DI-CAM-01
+    R: ":ARR:"
+    NDARRAY_PORT: CAM.PROC
+    TYPE: Int8
+    NELEMENTS: 1048576
+    FTVL: UCHAR
+
+  - type: ADCore.NDStats
+    PORT: CAM.STAT
+    P: BL11T-DI-CAM-01
+    R: ":STAT:"
+    NDARRAY_PORT: CAM.DRV
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDFileHDF5
+    PORT: CAM.HDF
+    P: BL11T-DI-CAM-01
+    R: ":HDF5:"
+    NDARRAY_PORT: CAM.PROC
+
+  - type: ADCore.NDFileTIFF
+    PORT: CAM.TIFF
+    P: BL11T-DI-CAM-01
+    R: ":TIFF:"
+    NDARRAY_PORT: CAM.PROC
+
+  - type: ADCore.NDOverlay
+    PORT: CAM.OVER
+    P: BL11T-DI-CAM-01
+    R: ":OVER:"
+    NDARRAY_PORT: CAM.PROC
+    NOverlays: 4
+
+  - type: ADCore.NDROIStat
+    PORT: CAM.ROISTAT
+    P: BL11T-DI-CAM-01
+    R: ":ROISTAT:"
+    NDARRAY_PORT: CAM.PROC
+    MAX_ROIS: 4
+
+  - type: ADCore.NDFileNetCDF
+    PORT: CAM.CDF
+    P: BL11T-DI-CAM-01
+    R: ":NCDF:"
+    NDARRAY_PORT: CAM.DRV
